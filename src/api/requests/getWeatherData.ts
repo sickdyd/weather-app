@@ -6,7 +6,7 @@ const getWeatherData = async ({ latitude, longitude }: Coordinates): Promise<Wea
   const URL = 'https://api.openweathermap.org/data/2.5/weather'
 
   const weatherData = await axios
-    .get(`${URL}?lat=${latitude}&lon=${longitude}&appid=${apiKey}`)
+    .get(`${URL}?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`)
     .then(({ data }) => data)
     .catch((error) => console.log(error.message))
 
