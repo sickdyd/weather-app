@@ -1,17 +1,19 @@
-class SessionStorageCache {
-  storeData(dataKey: string, weatherData: WeatherData): void {
-    const key = this.convertUrlToBase64(dataKey)
-    sessionStorage.setItem(key, JSON.stringify(weatherData))
+type WeatherDataWithExpiration = WeatherData & { expiresAt: number }
+class sessionStorageCache {
+  storeData(weatherData: WeatherData): void {
+    sessionStorage.setItem(
+      'weatherData',
+      JSON.stringify({ ...weatherData, expiresAt: this.expiration() })
+    )
   }
 
-  getData(dataKey: string): WeatherData {
-    const key = this.convertUrlToBase64(dataKey)
-    return JSON.parse(sessionStorage.getItem(key)) as WeatherData
+  getData(): WeatherDataWithExpiration {
+    return JSON.parse(sessionStorage.getItem('weatherData')) as WeatherDataWithExpiration
   }
 
-  private convertUrlToBase64(dataKey: string): string {
-    return btoa(dataKey)
+  expiration(): number {
+    return new Date().getTime() + 30000
   }
 }
 
-export default new SessionStorageCache()
+export default new sessionStorageCache()

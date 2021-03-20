@@ -9,7 +9,7 @@ const Main = styled.main`
 // Display the city name, current weather icon, temperature, humidity and windspeed
 
 function Home(): JSX.Element {
-  const { weatherData, loading, error } = useWeatherData()
+  const { weatherData, error } = useWeatherData()
 
   console.log(weatherData)
 
@@ -17,7 +17,7 @@ function Home(): JSX.Element {
     return <div>{error.message}</div>
   }
 
-  return <Main>{loading ? 'Loading weather data...' : JSON.stringify(weatherData)}</Main>
+  return <Main>{weatherData ? JSON.stringify(weatherData) : 'Loading weather data...'}</Main>
 }
 
 export default Home
