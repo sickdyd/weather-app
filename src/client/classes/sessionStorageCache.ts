@@ -1,18 +1,16 @@
-type WeatherDataWithExpiration = WeatherData & { expiresAt: number }
+import { REFRESH_TIME_IN_MS } from '../hooks/useWeatherData'
+
 class sessionStorageCache {
   storeData(weatherData: WeatherData): void {
-    sessionStorage.setItem(
-      'weatherData',
-      JSON.stringify({ ...weatherData, expiresAt: this.expiration() })
-    )
+    sessionStorage.setItem('weatherData', JSON.stringify(weatherData))
   }
 
-  getData(): WeatherDataWithExpiration {
-    return JSON.parse(sessionStorage.getItem('weatherData')) as WeatherDataWithExpiration
+  getData(): WeatherData {
+    return JSON.parse(sessionStorage.getItem('weatherData')) as WeatherData
   }
 
   expiration(): number {
-    return new Date().getTime() + 30000
+    return new Date().getTime() + REFRESH_TIME_IN_MS
   }
 }
 

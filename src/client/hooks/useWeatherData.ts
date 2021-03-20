@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import sendWeatherDataRequest from '../requests/sendWeatherDataRequest'
 import sessionStorageCache from '../classes/sessionStorageCache'
 
+export const REFRESH_TIME_IN_MS = 300000
+
 const useWeatherData: () => {
   weatherData: WeatherData
   error: Error | GeolocationPositionError
@@ -19,15 +21,19 @@ const useWeatherData: () => {
   }
 
   useEffect(() => {
+    let intervalId: NodeJS.Timeout = null
+
     const getWeatherData = (): void => {
       const success: PositionCallback = async ({ coords }: GeolocationPosition): Promise<void> => {
         const cachedWeatherData = sessionStorageCache.getData()
 
-        if (cachedWeatherData && cachedWeatherData.expiresAt > new Date().getTime()) {
+        if (cachedWeatherData) {
           setWeatherData(cachedWeatherData)
         } else {
           await handleWeatherDataRequest(coords)
         }
+
+        intervalId = setInterval(() => handleWeatherDataRequest(coords), REFRESH_TIME_IN_MS)
       }
 
       const error: PositionErrorCallback = (error): void => setError(error)
@@ -36,6 +42,8 @@ const useWeatherData: () => {
     }
 
     getWeatherData()
+
+    return () => clearInterval(intervalId)
   }, [])
 
   return {
