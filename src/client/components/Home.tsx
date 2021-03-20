@@ -11,14 +11,6 @@ const Wrapper = styled.main`
   align-items: center;
 
   padding: 1rem;
-
-  font-family: sans-serif;
-  background-color: brown;
-  color: white;
-
-  font-family: league-gothic, sans-serif;
-  font-weight: 400;
-  font-style: normal;
 `
 
 const Main = styled.div<{ temperature: number }>`
@@ -28,8 +20,11 @@ const Main = styled.div<{ temperature: number }>`
   align-items: center;
 
   width: 100%;
+  max-width: 400px;
 
   background-color: ${({ temperature }) => getTemperatureColor(temperature)};
+
+  border-radius: 10px;
 `
 
 const CityName = styled.div`

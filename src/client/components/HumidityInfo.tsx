@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 const HumidityIcon = styled.i<{ humidity: number }>`
   font-size: 3rem;
   margin-right: 1rem;
-  transform: scale(${({ humidity }) => humidity / 100}, 1);
+  transform: scale(${({ humidity }) => (humidity / 100 > 0.6 ? humidity / 100 : 0.6)}, 1);
 `
 
 export const HumidityInfo = ({ humidity }: { humidity: number }): JSX.Element => (

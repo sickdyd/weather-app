@@ -1,0 +1,18 @@
+@import url('https://use.typekit.net/gqb8ghc.css');
+@import 'weather-icons.min.css';
+@import 'weather-icons-wind.min.css';
+
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: black;
+  color: white;
+
+  font-family: league-gothic, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
