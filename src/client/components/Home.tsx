@@ -19,8 +19,8 @@ const Main = styled.div<{ temperature: number }>`
   justify-content: center;
   align-items: center;
 
-  width: 100%;
-  max-width: 400px;
+  width: calc(100% - 4rem);
+  max-width: 500px;
 
   background-color: ${({ temperature }) => (temperature > 20 ? '#fad53c' : '#304697')};
 
@@ -29,30 +29,48 @@ const Main = styled.div<{ temperature: number }>`
 
 const CityName = styled.div`
   margin-top: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
+
+  @media (min-width: 420px) {
+    font-size: 2.5rem;
+  }
 `
 
 const Line = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.5);
   width: 90%;
-  margin-top: 2rem;
+  margin: 1.5rem 0 0.5rem 0;
+
+  @media (min-width: 420px) {
+    margin: 2.5rem 0 0 0;
+  }
 `
 
 const WeatherInfoWrapper = styled.div`
   display: flex;
   justify-content: space-around;
-  padding: 1rem;
   width: 100%;
 
   .temperature-div {
-    font-size: 10rem;
+    font-size: 6rem;
   }
 
   .other-data-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-size: 3rem;
+    align-items: flex-start;
+    font-size: 2rem;
+  }
+
+  @media (min-width: 420px) {
+    .temperature-div {
+      font-size: 12rem;
+    }
+
+    .other-data-div {
+      font-size: 4rem;
+    }
   }
 `
 

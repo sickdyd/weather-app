@@ -2,10 +2,14 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 const HumidityIcon = styled.i<{ humidity: number }>`
-  font-size: 3rem;
+  font-size: 2rem;
   margin-right: 1rem;
-  margin-bottom: 1.3rem;
+  margin-bottom: 0.8rem;
   transform: scale(${({ humidity }) => (humidity / 100 > 0.6 ? humidity / 100 : 0.6)}, 1);
+
+  @media (min-width: 420px) {
+    font-size: 3.5rem;
+  }
 `
 
 export const HumidityInfo = ({ humidity }: { humidity: number }): JSX.Element => (
