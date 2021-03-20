@@ -8,7 +8,7 @@ declare module '*.svg' {
 interface WeatherData {
   cityName: string
   weatherIcon: string
-  weatherCode: string
+  weatherId: string
   temperature: number
   humidity: number
   windspeed: number

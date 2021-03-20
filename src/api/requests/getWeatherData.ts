@@ -10,12 +10,12 @@ const getWeatherData = async ({
   const weatherData = await axios
     .get(`${URL}?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`)
     .then(({ data }) => ({
-      cityName: data.name,
+      cityName: data.name.toUpperCase(),
       weatherIcon: data.weather[0].icon,
-      weatherCode: data.cod,
-      temperature: data.main.temp,
-      humidity: data.main.humidity,
-      windspeed: data.wind.speed
+      weatherId: data.weather[0].id,
+      temperature: parseInt(data.main.temp),
+      humidity: parseInt(data.main.humidity),
+      windspeed: parseInt(data.wind.speed)
     }))
     .catch((error) => console.log(error.message))
 
