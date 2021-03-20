@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-const WeatherIcon = styled.img`
-  width: 60vw;
+const WeatherIcon = styled.i`
+  font-size: 12rem;
 `
 
-export const WeatherImage = ({ weatherIcon }: { weatherIcon: string }): JSX.Element => (
-  <WeatherIcon src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`} />
+export const WeatherImage = ({ weatherId }: { weatherId: string }): JSX.Element => (
+  <WeatherIcon className={`wi wi-owm-${weatherId}`} />
 )

@@ -2,6 +2,8 @@ import React from 'react'
 import styled from '@emotion/styled'
 import useWeatherData from '../hooks/useWeatherData'
 import { WeatherImage } from './WeatherImage'
+import { WindInfo } from './WindInfo'
+import { HumidityInfo } from './HumidityInfo'
 
 const Wrapper = styled.main`
   display: flex;
@@ -31,12 +33,14 @@ const Main = styled.div<{ temperature: number }>`
 `
 
 const CityName = styled.div`
-  font-size: 60px;
+  margin-top: 1rem;
+  font-size: 2rem;
 `
 
 const Line = styled.div`
   border: 1px solid rgba(255, 255, 255, 05);
-  width: 100%;
+  width: 90%;
+  margin-top: 2rem;
 `
 
 const WeatherInfoWrapper = styled.div`
@@ -72,19 +76,22 @@ function Home(): JSX.Element {
     return null
   }
 
-  const { cityName, temperature, windspeed, humidity, weatherIcon } = weatherData
+  const { cityName, temperature, wind, humidity, weatherId } = weatherData
 
   return (
     <Wrapper>
       <Main temperature={temperature}>
         <CityName>{cityName}</CityName>
-        <WeatherImage weatherIcon={weatherIcon} />
+        <WeatherImage weatherId={weatherId} />
         <Line />
         <WeatherInfoWrapper>
-          <div className="temperature-div">{temperature}°</div>
+          <div className="temperature-div">
+            {temperature}
+            <i className="wi wi-degrees" />
+          </div>
           <div className="other-data-div">
-            <div>{windspeed} kms/h</div>
-            <div>{humidity}</div>
+            <WindInfo wind={wind} />
+            <HumidityInfo humidity={humidity} />
           </div>
         </WeatherInfoWrapper>
       </Main>

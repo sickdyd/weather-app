@@ -5,13 +5,17 @@ declare module '*.svg' {
   export default src
 }
 
+interface WindData {
+  speed: number
+  deg: number
+}
+
 interface WeatherData {
   cityName: string
-  weatherIcon: string
   weatherId: string
   temperature: number
   humidity: number
-  windspeed: number
+  wind: WindData
 }
 
 interface Coordinates {

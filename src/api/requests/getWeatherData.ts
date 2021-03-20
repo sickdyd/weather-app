@@ -11,11 +11,13 @@ const getWeatherData = async ({
     .get(`${URL}?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`)
     .then(({ data }) => ({
       cityName: data.name.toUpperCase(),
-      weatherIcon: data.weather[0].icon,
       weatherId: data.weather[0].id,
       temperature: parseInt(data.main.temp),
       humidity: parseInt(data.main.humidity),
-      windspeed: parseInt(data.wind.speed)
+      wind: {
+        speed: parseInt(data.wind.speed),
+        deg: parseInt(data.wind.deg)
+      }
     }))
     .catch((error) => console.log(error.message))
 
