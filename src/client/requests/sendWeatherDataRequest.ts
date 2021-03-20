@@ -3,13 +3,20 @@ import { getUrlPort } from '../utils/getUrlPort'
 
 const sendWeatherDataRequest = async ({
   latitude,
-  longitude
-}: GeolocationCoordinates): Promise<{ data: WeatherData }> => {
+  longitude,
+  city
+}: WeatherDataParams): Promise<{ data: WeatherData }> => {
   const PORT = getUrlPort()
-  const API_ENDPOINT = `${window.location.protocol}//${window.location.hostname}${PORT}/weather`
-  const URL = `${API_ENDPOINT}?latitude=${latitude}&longitude=${longitude}`
+  const BASE_URL = `${window.location.protocol}//${window.location.hostname}${PORT}/weather`
+  let requestURL = ''
 
-  return await axios.get(URL)
+  if (city) {
+    requestURL = `${BASE_URL}?city=${city}`
+  } else if (latitude && longitude) {
+    requestURL = `${BASE_URL}?latitude=${latitude}&longitude=${longitude}`
+  }
+
+  return await axios.get(requestURL)
 }
 
 export default sendWeatherDataRequest

@@ -22,3 +22,9 @@ interface Coordinates {
   latitude: string
   longitude: string
 }
+
+interface WeatherDataParams {
+  latitude?: number
+  longitude?: number
+  city?: string
+}

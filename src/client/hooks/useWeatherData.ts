@@ -11,8 +11,8 @@ const useWeatherData: () => {
   const [weatherData, setWeatherData] = useState<WeatherData>(null)
   const [error, setError] = useState<Error | GeolocationPositionError>(null)
 
-  const handleWeatherDataRequest = async (coords: GeolocationCoordinates) => {
-    await sendWeatherDataRequest(coords)
+  const handleWeatherDataRequest = async (params: WeatherDataParams) => {
+    await sendWeatherDataRequest(params)
       .then(({ data }) => {
         sessionStorageCache.storeData(data)
         setWeatherData(data)
