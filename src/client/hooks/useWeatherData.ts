@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { getUrlPort } from '../utils/getUrlPort'
+import sessionStorageCache from '../classes/sessionStorageCache'
 
 const useWeatherData: () => {
   weatherData: WeatherData
@@ -11,19 +12,31 @@ const useWeatherData: () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error | GeolocationPositionError>(null)
 
+  const handleSetWeatherData = ({ URL, data }: { URL: string; data: WeatherData }): void => {
+    sessionStorageCache.storeData(URL, data)
+    setWeatherData(data)
+    setLoading(false)
+  }
+
   useEffect(() => {
     const getWeatherData = (): void => {
       const success: PositionCallback = async ({ coords }: GeolocationPosition): Promise<void> => {
         const { latitude, longitude } = coords
 
         const PORT = getUrlPort()
-        const URL = `${window.location.protocol}//${window.location.hostname}${PORT}/weather`
+        const API_ENDPOINT = `${window.location.protocol}//${window.location.hostname}${PORT}/weather`
+        const URL = `${API_ENDPOINT}?latitude=${latitude}&longitude=${longitude}`
+        const storedWeatherData = sessionStorageCache.getData(URL) as WeatherData
 
-        await axios
-          .get(`${URL}?latitude=${latitude}&longitude=${longitude}`)
-          .then(({ data }) => setWeatherData(data))
-          .catch((error) => setError(error))
-          .finally(() => setLoading(false))
+        if (storedWeatherData) {
+          handleSetWeatherData({ URL, data: storedWeatherData })
+        } else {
+          await axios
+            .get(URL)
+            .then(({ data }) => handleSetWeatherData({ URL, data }))
+            .catch((error) => setError(error))
+            .finally(() => setLoading(false))
+        }
       }
 
       const error: PositionErrorCallback = (error): void => {
