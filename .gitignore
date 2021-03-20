@@ -1,0 +1,18 @@
+logs
+*.log
+npm-debug.log*
+.DS_Store
+
+coverage
+build
+cache
+node_modules
+public/static
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Optional eslint cache
+.eslintcache
+.vercel
