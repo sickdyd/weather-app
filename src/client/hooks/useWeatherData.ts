@@ -1,26 +1,33 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { getUrlPort } from '../utils/getUrlPort'
 
-const useWeatherData: () => { weatherData: WeatherData; loading: boolean } = () => {
+const useWeatherData: () => {
+  weatherData: WeatherData
+  loading: boolean
+  error: Error | GeolocationPositionError
+} = () => {
   const [weatherData, setWeatherData] = useState<WeatherData>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<Error | GeolocationPositionError>(null)
 
   useEffect(() => {
     const getWeatherData = (): void => {
       const success: PositionCallback = async ({ coords }: GeolocationPosition): Promise<void> => {
         const { latitude, longitude } = coords
 
-        const URL = `${window.location.protocol}//${window.location.hostname}:3000/weather`
+        const PORT = getUrlPort()
+        const URL = `${window.location.protocol}//${window.location.hostname}${PORT}/weather`
 
         await axios
           .get(`${URL}?latitude=${latitude}&longitude=${longitude}`)
           .then(({ data }) => setWeatherData(data))
-          .catch((error) => console.log(error))
+          .catch((error) => setError(error))
           .finally(() => setLoading(false))
       }
 
       const error: PositionErrorCallback = (error): void => {
-        console.log(error)
+        setError(error)
         setLoading(false)
       }
 
@@ -38,7 +45,8 @@ const useWeatherData: () => { weatherData: WeatherData; loading: boolean } = () 
 
   return {
     weatherData,
-    loading
+    loading,
+    error
   }
 }
 
