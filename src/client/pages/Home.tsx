@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import useWeatherData from '../hooks/useWeatherData'
-import { WeatherImage } from './WeatherImage'
-import { WindInfo } from './WindInfo'
-import { HumidityInfo } from './HumidityInfo'
+import { WeatherImage } from '../components/WeatherImage'
+import { WindInfo } from '../components/WindInfo'
+import { HumidityInfo } from '../components/HumidityInfo'
 
 const Wrapper = styled.main`
   display: flex;
