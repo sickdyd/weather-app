@@ -10,7 +10,7 @@ const Wrapper = styled.main`
   justify-content: center;
   align-items: center;
 
-  padding: 1rem;
+  height: 100vh;
 `
 
 const Main = styled.div<{ temperature: number }>`
@@ -22,7 +22,7 @@ const Main = styled.div<{ temperature: number }>`
   width: 100%;
   max-width: 400px;
 
-  background-color: ${({ temperature }) => getTemperatureColor(temperature)};
+  background-color: ${({ temperature }) => (temperature > 20 ? '#fad53c' : '#304697')};
 
   border-radius: 10px;
 `
@@ -33,7 +33,7 @@ const CityName = styled.div`
 `
 
 const Line = styled.div`
-  border: 1px solid rgba(255, 255, 255, 05);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   width: 90%;
   margin-top: 2rem;
 `
@@ -45,7 +45,7 @@ const WeatherInfoWrapper = styled.div`
   width: 100%;
 
   .temperature-div {
-    font-size: 8rem;
+    font-size: 10rem;
   }
 
   .other-data-div {
@@ -55,8 +55,6 @@ const WeatherInfoWrapper = styled.div`
     font-size: 3rem;
   }
 `
-
-const getTemperatureColor = (temp: number) => 'darkblue'
 
 function Home(): JSX.Element {
   const { weatherData, error } = useWeatherData()
@@ -85,8 +83,8 @@ function Home(): JSX.Element {
             <i className="wi wi-degrees" />
           </div>
           <div className="other-data-div">
-            <WindInfo wind={wind} />
             <HumidityInfo humidity={humidity} />
+            <WindInfo wind={wind} />
           </div>
         </WeatherInfoWrapper>
       </Main>

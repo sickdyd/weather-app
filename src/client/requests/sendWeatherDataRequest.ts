@@ -1,6 +1,11 @@
 import axios from 'axios'
 import { getUrlPort } from '../utils/getUrlPort'
 
+interface RequestParams {
+  coords: GeolocationCoordinates
+  cities: Array<string>
+}
+
 const sendWeatherDataRequest = async ({
   latitude,
   longitude
