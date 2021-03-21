@@ -1,14 +1,58 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
+import axios from 'axios'
+
 import App from './App'
 
-test('renders learn react link', () => {
-  const { getByText } = render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>
-  )
-  const linkElement = getByText(/welcome to razzles/i)
-  expect(linkElement).toBeInTheDocument()
+describe('razzle-weather-app', () => {
+  beforeAll(() => {
+    const coords = {
+      latitude: 139.7193014,
+      longitude: 35.5565353
+    }
+
+    const mockGeolocation = {
+      getCurrentPosition: jest
+        .fn()
+        .mockImplementationOnce((success) => Promise.resolve(success({ coords })))
+    }
+
+    Object.defineProperty(global.navigator, 'geolocation', { value: mockGeolocation })
+
+    const response = {
+      cityName: 'Milan',
+      humidity: 40,
+      temperature: 25,
+      weatherId: 701,
+      wind: {
+        deg: 200,
+        speed: 15
+      }
+    }
+
+    jest.spyOn(axios, 'get').mockResolvedValueOnce({
+      data: response
+    })
+  })
+
+  it('renders weather data', async () => {
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    )
+
+    const cityName = await screen.findByText(/Milan/i)
+    expect(cityName).toBeInTheDocument()
+
+    const temperature = await screen.findByText(/25/i)
+    expect(temperature).toBeInTheDocument()
+
+    const windSpeed = await screen.findByText(/15/i)
+    expect(windSpeed).toBeInTheDocument()
+
+    const humidity = await screen.findByText(/40/i)
+    expect(humidity).toBeInTheDocument()
+  })
 })

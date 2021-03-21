@@ -24,8 +24,6 @@ function Home(): JSX.Element {
     return <Loader />
   }
 
-  console.log(currentWeatherData)
-
   return (
     <Wrapper>
       <WeatherCard {...currentWeatherData} />
