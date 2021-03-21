@@ -7,7 +7,7 @@ const HumidityIcon = styled.i<{ humidity: number }>`
   margin-bottom: 0.8rem;
   transform: scale(${({ humidity }) => (humidity / 100 > 0.6 ? humidity / 100 : 0.6)}, 1);
 
-  @media (min-width: 420px) {
+  @media (min-width: 825px) {
     font-size: 3.5rem;
   }
 `

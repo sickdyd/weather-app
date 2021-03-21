@@ -5,8 +5,12 @@ const WeatherIcon = styled.i`
   font-size: 11rem;
   margin-top: 1rem;
 
-  @media (min-width: 420px) {
+  @media (min-width: 825px) {
     font-size: 15rem;
+  }
+
+  @media (max-height: 411px) {
+    font-size: 7rem;
   }
 `
 

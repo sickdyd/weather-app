@@ -5,7 +5,7 @@ const WindIcon = styled.i`
   font-size: 2rem;
   margin-right: 1rem;
 
-  @media (min-width: 420px) {
+  @media (min-width: 825px) {
     font-size: 3.5rem;
   }
 `

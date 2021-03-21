@@ -17,13 +17,17 @@ const Main = styled.div<{ temperature: number }>`
   background-color: ${({ temperature }) => (temperature > 20 ? '#fad53c' : '#304697')};
 
   border-radius: 10px;
+
+  @media (max-height: 411px) {
+    max-width: 300px;
+  }
 `
 
 const CityName = styled.div`
   margin-top: 1rem;
   font-size: 1.5rem;
 
-  @media (min-width: 420px) {
+  @media (min-width: 825px) {
     font-size: 2.5rem;
   }
 `
@@ -45,7 +49,7 @@ const WeatherInfoWrapper = styled.div`
     font-size: 2rem;
   }
 
-  @media (min-width: 420px) {
+  @media (min-width: 825px) {
     .temperature-div {
       font-size: 12rem;
     }

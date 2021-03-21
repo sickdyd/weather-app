@@ -5,7 +5,7 @@ export const Line = styled.div`
   width: 90%;
   margin: 1.5rem 0 0.5rem 0;
 
-  @media (min-width: 420px) {
+  @media (min-width: 825px) {
     margin: 2.5rem 0 0 0;
   }
 `
