@@ -6,24 +6,28 @@ const StyledLoader = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: 100vh;
-  width: 100%;
+  height: 140px;
+  width: 140px;
 
   font-size: 3rem;
 
+  border: 2px dashed #1398b2;
+  border-radius: 50%;
+
   @keyframes loading {
     from {
-      background-color: #004650;
+      transform: rotate(0);
     }
     to {
-      background-color: #3b788d;
+      transform: rotate(180deg);
     }
   }
 
   animation-name: loading;
-  animation-duration: 1s;
-  animation-direction: alternate-reverse;
+  animation-duration: 3s;
+  animation-direction: forwards;
   animation-iteration-count: infinite;
+  animation-timing-function: linear;
 `
 
-export const Loader = (): JSX.Element => <StyledLoader>Loading data...</StyledLoader>
+export const Loader = (): JSX.Element => <StyledLoader></StyledLoader>

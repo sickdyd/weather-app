@@ -21,7 +21,11 @@ function Home(): JSX.Element {
   }
 
   if (!currentWeatherData) {
-    return <Loader />
+    return (
+      <Wrapper>
+        <Loader />
+      </Wrapper>
+    )
   }
 
   return (
