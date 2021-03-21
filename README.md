@@ -1,4 +1,4 @@
-# Razzle TypeScript Example
+# Razzle Weather App
 
 ## Live version
 
@@ -8,8 +8,28 @@ https://razzle-weather-app.vercel.app/?city=Milan
 
 ## Usage
 
+Start the server:
+
 ```
 yarn start
+```
+
+Run tests (press `a` to run all tests)
+
+```
+yarn test
+```
+
+Run the linter:
+
+```
+yarn lint
+```
+
+Typecheck
+
+```
+yarn typecheck
 ```
 
 ## Features
