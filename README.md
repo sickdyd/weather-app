@@ -3,6 +3,7 @@
 ## Live version
 
 https://razzle-weather-app.vercel.app/
+
 https://razzle-weather-app.vercel.app/?city=Milan
 
 ## Usage
