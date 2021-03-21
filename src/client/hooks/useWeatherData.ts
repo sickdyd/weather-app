@@ -5,28 +5,30 @@ import { requestDataByCity, requestDataByCoords } from '../requests/sendWeatherD
 export const REFRESH_TIME_IN_MS = 300000
 
 const useWeatherData: (
-  cities?: Array<string>
+  city?: string
 ) => {
   currentWeatherData: WeatherData
   error: Error | GeolocationPositionError
-} = (cities = null) => {
+} = (city = null) => {
   const [currentWeatherData, setCurrentWeatherData] = useState<WeatherData>(null)
   const [coords, setCoords] = useState<GeolocationCoordinates>(null)
-  const [queryCities] = useState(cities)
+  const [queryCity] = useState(city)
   const [error, setError] = useState<Error | GeolocationPositionError>(null)
 
   const handleWeatherData = (data: WeatherData) => {
-    cache.storeData('localWeatherData', data)
+    cache.storeData('weatherData', data)
     setCurrentWeatherData(data)
   }
 
   const handleSetCoords = (coords) => {
-    const cachedLocalWeatherData = cache.getData('localWeatherData')
+    const cachedLocalWeatherData = cache.getData('weatherData')
 
-    if (cachedLocalWeatherData) {
-      if (!currentWeatherData) setCurrentWeatherData(cachedLocalWeatherData)
-    } else {
-      setCoords(coords)
+    if (!city) {
+      if (cachedLocalWeatherData) {
+        if (!currentWeatherData) setCurrentWeatherData(cachedLocalWeatherData)
+      } else {
+        setCoords(coords)
+      }
     }
   }
 
@@ -47,7 +49,7 @@ const useWeatherData: (
   }, [])
 
   useEffect(() => {
-    if (coords && !queryCities) {
+    if (coords && !queryCity) {
       const handleCoords = async () => {
         await requestDataByCoords(coords)
           .then(({ data }) => handleWeatherData(data))
@@ -59,14 +61,17 @@ const useWeatherData: (
   }, [coords])
 
   useEffect(() => {
-    if (queryCities) {
-      cities.forEach(async (city) => {
-        await requestDataByCity(city)
-          .then(({ data }) => handleWeatherData(data))
+    const handleQueryCity = async () => {
+      if (queryCity) {
+        setCurrentWeatherData(null)
+        await requestDataByCity(queryCity)
+          .then(({ data }) => setCurrentWeatherData(data))
           .catch((error) => setError(error))
-      })
+      }
     }
-  }, [queryCities])
+
+    handleQueryCity()
+  }, [queryCity])
 
   return {
     currentWeatherData,
