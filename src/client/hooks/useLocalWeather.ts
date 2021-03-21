@@ -18,9 +18,11 @@ const useWeatherData: (
   }
 
   const sendRequest = async (coords: GeolocationCoordinates) => {
-    await requestDataByCoords(coords)
-      .then(({ data }) => handleWeatherData(data))
-      .catch((error) => setError(error))
+    if (coords) {
+      await requestDataByCoords(coords)
+        .then(({ data }) => handleWeatherData(data))
+        .catch((error) => setError(error))
+    }
   }
 
   const handleSetCoords = async (coords: GeolocationCoordinates) => {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { requestDataByCity } from '../requests/sendWeatherDataRequest'
 import { REFRESH_TIME_IN_MS } from '../pages/Weather'
+import cache from '../classes/cache'
 
 const useRemoteWeather: (
   queryStringCity: string
@@ -12,15 +13,31 @@ const useRemoteWeather: (
   const [city] = useState<string>(queryStringCity)
   const [error, setError] = useState<Error>(null)
 
-  const handleQueryCity = async (city: string) =>
+  const handleWeatherData = (data: WeatherData) => {
+    cache.storeData(city, data)
+    setWeatherData(data)
+  }
+
+  const sendRequest = async (city: string) => {
     await requestDataByCity(city)
-      .then(({ data }) => setWeatherData(data))
+      .then(({ data }) => handleWeatherData(data))
       .catch((error) => setError(error))
+  }
+
+  const handleQueryCity = async (city: string) => {
+    const cachedData = cache.getData(city)
+
+    if (cachedData) {
+      !weatherData && setWeatherData(cachedData)
+    } else {
+      sendRequest(city)
+    }
+  }
 
   useEffect(() => {
     handleQueryCity(city)
 
-    const intervalId: NodeJS.Timeout = setInterval(() => handleQueryCity(city), REFRESH_TIME_IN_MS)
+    const intervalId: NodeJS.Timeout = setInterval(() => sendRequest(city), REFRESH_TIME_IN_MS)
 
     return () => clearInterval(intervalId)
   }, [city])
