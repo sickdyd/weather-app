@@ -16,6 +16,7 @@ interface WeatherData {
   temperature: number
   humidity: number
   wind: WindData
+  expiresAt?: number
 }
 
 interface Coordinates {

@@ -4,6 +4,7 @@ import useWeatherData from '../hooks/useWeatherData'
 import { WeatherImage } from '../components/WeatherImage'
 import { WindInfo } from '../components/WindInfo'
 import { HumidityInfo } from '../components/HumidityInfo'
+import { getCityQueryString } from '../utils/getCityQueryString'
 
 const Wrapper = styled.main`
   display: flex;
@@ -75,19 +76,19 @@ const WeatherInfoWrapper = styled.div`
 `
 
 function Home(): JSX.Element {
-  const { weatherData, error } = useWeatherData()
-
-  console.log(weatherData)
+  const { currentWeatherData, error } = useWeatherData(getCityQueryString())
 
   if (error) {
     console.log(error.message)
   }
 
-  if (!weatherData) {
+  if (!currentWeatherData) {
     return null
   }
 
-  const { cityName, temperature, wind, humidity, weatherId } = weatherData
+  console.log(currentWeatherData)
+
+  const { cityName, temperature, wind, humidity, weatherId } = currentWeatherData
 
   return (
     <Wrapper>

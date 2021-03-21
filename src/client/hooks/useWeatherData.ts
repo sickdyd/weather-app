@@ -1,53 +1,54 @@
 import { useEffect, useState } from 'react'
-import sendWeatherDataRequest from '../requests/sendWeatherDataRequest'
-import sessionStorageCache from '../classes/sessionStorageCache'
+import { requestDataByCity, requestDataByCoords } from '../requests/sendWeatherDataRequest'
 
 export const REFRESH_TIME_IN_MS = 300000
 
-const useWeatherData: () => {
-  weatherData: WeatherData
+const useWeatherData: (
+  cities?: Array<string>
+) => {
+  currentWeatherData: WeatherData
   error: Error | GeolocationPositionError
-} = () => {
-  const [weatherData, setWeatherData] = useState<WeatherData>(null)
+} = (cities = null) => {
+  const [currentWeatherData, setCurrentWeatherData] = useState<WeatherData>(null)
+  const [coords, setCoords] = useState<GeolocationCoordinates>(null)
+  const [queryCities] = useState(cities)
   const [error, setError] = useState<Error | GeolocationPositionError>(null)
 
-  const handleWeatherDataRequest = async (params: WeatherDataParams) => {
-    await sendWeatherDataRequest(params)
-      .then(({ data }) => {
-        sessionStorageCache.storeData(data)
-        setWeatherData(data)
-      })
-      .catch((error) => setError(error))
-  }
-
   useEffect(() => {
-    let intervalId: NodeJS.Timeout = null
-
     const getWeatherData = (): void => {
-      const success: PositionCallback = async ({ coords }: GeolocationPosition): Promise<void> => {
-        const cachedWeatherData = sessionStorageCache.getData()
-
-        if (cachedWeatherData) {
-          setWeatherData(cachedWeatherData)
-        } else {
-          await handleWeatherDataRequest(coords)
-        }
-
-        intervalId = setInterval(() => handleWeatherDataRequest(coords), REFRESH_TIME_IN_MS)
-      }
-
+      const success: PositionCallback = ({ coords }: GeolocationPosition): void => setCoords(coords)
       const error: PositionErrorCallback = (error): void => setError(error)
 
       navigator.geolocation.getCurrentPosition(success, error)
     }
 
     getWeatherData()
-
-    return () => clearInterval(intervalId)
   }, [])
 
+  useEffect(() => {
+    if (coords && !queryCities) {
+      const handleCoords = async () => {
+        await requestDataByCoords(coords)
+          .then(({ data }) => setCurrentWeatherData(data))
+          .catch((error) => setError(error))
+      }
+
+      handleCoords()
+    }
+  }, [coords])
+
+  useEffect(() => {
+    if (queryCities) {
+      cities.forEach(async (city) => {
+        await requestDataByCity(city)
+          .then(({ data }) => setCurrentWeatherData(data))
+          .catch((error) => setError(error))
+      })
+    }
+  }, [queryCities])
+
   return {
-    weatherData,
+    currentWeatherData,
     error
   }
 }
