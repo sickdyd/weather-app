@@ -1,6 +1,26 @@
 # Razzle TypeScript Example
 
-## How to use
+## Live version
+
+https://razzle-weather-app.vercel.app/
+https://razzle-weather-app.vercel.app/?city=Milan
+
+## Usage
+
+```
+yarn start
+```
+
+## Features
+
+- SSR
+- Reverse proxy for client side weather requests
+- Detect current city using geolocation
+- Display the city name, current weather icon, temperature, humidity and wind speed
+- Background color changes based on the temperature
+- Load a specific city using the query string `?city=Milan`
+- Caches the API in session storage and auto refreshes data after 5 minutes
+- Compatible with IE11
 
 <!-- START install generated instructions please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->Create and start the example:
