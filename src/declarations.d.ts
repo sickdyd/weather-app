@@ -12,7 +12,7 @@ interface WindData {
 
 interface WeatherData {
   cityName: string
-  weatherId: string
+  weatherId: number
   temperature: number
   humidity: number
   wind: WindData

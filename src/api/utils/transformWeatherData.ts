@@ -1,11 +1,11 @@
-const transformWeatherData = (data: any): WeatherData => ({
+const transformWeatherData = (data: OWResponse): WeatherData => ({
   cityName: data.name.toUpperCase(),
   weatherId: data.weather[0].id,
-  temperature: parseInt(data.main.temp),
-  humidity: parseInt(data.main.humidity),
+  temperature: data.main.temp,
+  humidity: data.main.humidity,
   wind: {
-    speed: parseInt(data.wind.speed),
-    deg: parseInt(data.wind.deg)
+    speed: data.wind.speed,
+    deg: data.wind.deg
   }
 })
 
