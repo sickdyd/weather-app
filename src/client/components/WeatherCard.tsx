@@ -18,6 +18,10 @@ const Main = styled.div<{ temperature: number }>`
 
   border-radius: 10px;
 
+  @media (max-width: 825px) {
+    max-width: 400px;
+  }
+
   @media (max-height: 411px) {
     max-width: 300px;
   }
