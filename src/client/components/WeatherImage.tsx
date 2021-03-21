@@ -14,6 +14,6 @@ const WeatherIcon = styled.i`
   }
 `
 
-export const WeatherImage = ({ weatherId }: { weatherId: string }): JSX.Element => (
+export const WeatherImage = ({ weatherId }: { weatherId: number }): JSX.Element => (
   <WeatherIcon className={`wi wi-owm-${weatherId}`} />
 )

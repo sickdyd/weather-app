@@ -14,7 +14,7 @@ interface ServerResponse {
 }
 
 export const renderApp = (req: express.Request): ServerResponse => {
-  const context: any = {}
+  const context: { url: string | null } = { url: null }
 
   const markup = renderToString(
     <StaticRouter context={context} location={req.url}>
