@@ -1,12 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import useWeatherData from '../hooks/useWeatherData'
 import { WeatherImage } from '../components/WeatherImage'
 import { WindInfo } from '../components/WindInfo'
 import { HumidityInfo } from '../components/HumidityInfo'
-import { Loader } from '../components/Loader'
 import { Line } from '../components/Line'
-import { getCityQueryString } from '../utils/getCityQueryString'
 
 const Main = styled.div<{ temperature: number }>`
   display: flex;
@@ -59,21 +56,13 @@ const WeatherInfoWrapper = styled.div`
   }
 `
 
-export const WeatherCard = (): JSX.Element => {
-  const { currentWeatherData, error } = useWeatherData(getCityQueryString())
-
-  if (error) {
-    console.log(error.message)
-  }
-
-  if (!currentWeatherData) {
-    return <Loader />
-  }
-
-  console.log(currentWeatherData)
-
-  const { cityName, temperature, wind, humidity, weatherId } = currentWeatherData
-
+export const WeatherCard = ({
+  cityName,
+  temperature,
+  wind,
+  humidity,
+  weatherId
+}: WeatherData): JSX.Element => {
   return (
     <Main temperature={temperature}>
       <CityName>{cityName}</CityName>
