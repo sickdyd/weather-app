@@ -1,14 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-const Wrapper = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 100vh;
-`
-
 const StyledLoader = styled.div`
   display: flex;
   justify-content: center;
@@ -38,8 +30,4 @@ const StyledLoader = styled.div`
   animation-timing-function: linear;
 `
 
-export const Loader = (): JSX.Element => (
-  <Wrapper>
-    <StyledLoader></StyledLoader>
-  </Wrapper>
-)
+export const Loader = (): JSX.Element => <StyledLoader />
