@@ -7,8 +7,8 @@ import useInterval from '../hooks/useInterval'
 import { WeatherCard } from '../components/WeatherCard'
 import { Loader } from '../components/Loader'
 
-export const REFRESH_TIME_IN_MS = 20000
-const ROTATE_TIME_IN_MS = 3000
+export const REFRESH_TIME_IN_MS = 300000
+const ROTATE_TIME_IN_MS = 5000
 
 function Weather(): JSX.Element {
   const [cardsData, setCardsData] = useState([])
