@@ -2,9 +2,9 @@
 
 ## Live version
 
-https://razzle-weather-app.vercel.app/
+https://weather-app.vercel.app/
 
-https://razzle-weather-app.vercel.app/?city=Milan
+https://weather-app.vercel.app/?city=Milan,Paris,Helsinki,Vancouver
 
 ## Lighthouse
 
@@ -15,7 +15,7 @@ Due to how geolocation is expected to be handled, lighthouse will fail unless yo
 To test the score, use an address with a query string such as:
 
 ```
-https://razzle-weather-app.vercel.app/?city=Milan
+https://weather-app.vercel.app/?city=Milan
 ```
 
 ## Usage
@@ -51,7 +51,8 @@ yarn typecheck
 - Detect current city using geolocation
 - Display the city name, current weather icon, temperature, humidity and wind speed
 - Background color changes based on the temperature
-- Load a specific city using the query string `?city=Milan`
+- Load a specific list of cities using comma separated names within the city query string param, ie `?city=Milan,Rome,Florence`
+- Automatically rotate weather information on multiple cities
 - Caches the API in session storage and auto refreshes data after 5 minutes
 - Compatible with IE11
 
