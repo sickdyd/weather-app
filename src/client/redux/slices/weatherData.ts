@@ -9,13 +9,10 @@ interface Store {
 
 const initialState = { loading: false, data: null, error: null } as Store
 
-export const fetchWeather = createAsyncThunk(
-  'fetchWeather',
-  async (coordinates: Partial<GeolocationCoordinates>) => {
-    const response = await requestWeatherData(coordinates)
-    return response.data as WeatherData
-  }
-)
+export const fetchWeather = createAsyncThunk('fetchWeather', async (params: WeatherDataParams) => {
+  const response = await requestWeatherData(params)
+  return response.data as WeatherData
+})
 
 const weatherSlice = createSlice({
   name: 'weather',

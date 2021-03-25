@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 const useGeolocation: () => {
-  coords: GeolocationCoordinates
+  coords: Pick<GeolocationCoordinates, 'latitude' & 'longitude'>
   error: GeolocationPositionError
 } = () => {
   const [coords, setCoords] = useState<GeolocationCoordinates>(null)
