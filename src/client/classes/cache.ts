@@ -1,18 +1,17 @@
+export const CACHE_EXPIRATION = 1 * 60 * 1000
+
 class cache {
-  storeData(cityName: string, weatherData: WeatherData): void {
-    sessionStorage.setItem(
-      cityName,
-      JSON.stringify({ ...weatherData, expiresAt: this.expiration() })
-    )
+  storeData({ key, weatherData }: { key: string; weatherData: WeatherData }): void {
+    sessionStorage.setItem(key, JSON.stringify({ ...weatherData, expiresAt: this.expiration() }))
   }
 
-  getData(cityName: string): WeatherData | null {
-    const weatherData = JSON.parse(sessionStorage.getItem(cityName)) as WeatherData
-    return this.isExpired(weatherData?.expiresAt) ? null : weatherData
+  getData(key: string): WeatherData | null {
+    const data = JSON.parse(sessionStorage.getItem(key)) as WeatherData
+    return this.isExpired(data?.expiresAt) ? null : data
   }
 
   expiration(): number {
-    return new Date().getTime() + 300000
+    return new Date().getTime() + CACHE_EXPIRATION - 1000
   }
 
   isExpired(expiresAt: number) {

@@ -8,14 +8,10 @@ const useGeolocation: () => {
   const [error, setError] = useState<GeolocationPositionError>(null)
 
   useEffect(() => {
-    const getWeatherData = (): void => {
-      const success: PositionCallback = ({ coords }: GeolocationPosition): void => setCoords(coords)
-      const error: PositionErrorCallback = (error): void => setError(error)
+    const success: PositionCallback = ({ coords }: GeolocationPosition): void => setCoords(coords)
+    const error: PositionErrorCallback = (error): void => setError(error)
 
-      navigator.geolocation.getCurrentPosition(success, error)
-    }
-
-    getWeatherData()
+    navigator.geolocation.getCurrentPosition(success, error)
   }, [])
 
   return {

@@ -6,8 +6,8 @@ import useCityQueryString from '../hooks/useCityQueryString'
 import useInterval from '../hooks/useInterval'
 import { WeatherCard } from '../components/WeatherCard'
 import { Loader } from '../components/Loader'
+import { CACHE_EXPIRATION } from '../classes/cache'
 
-export const REFRESH_TIME_IN_MS = 300000
 const ROTATE_TIME_IN_MS = 5000
 
 function Weather(): JSX.Element {
@@ -28,14 +28,19 @@ function Weather(): JSX.Element {
 
   store.subscribe(() => setCardsData(store.getState().data))
 
+  let localWeatherIntervalId: NodeJS.Timeout = null
+  let remotWeatherIntervalId: NodeJS.Timeout = null
+
   useEffect(() => {
     if (coords && cities.length === 0) {
       dispatch(clearData())
       dispatch(fetchWeather(coords))
     }
 
-    const intervalId: NodeJS.Timeout = setInterval(() => fetchWeather(coords), REFRESH_TIME_IN_MS)
-    return () => clearInterval(intervalId)
+    clearInterval(remotWeatherIntervalId)
+
+    localWeatherIntervalId = setInterval(() => dispatch(fetchWeather(coords)), CACHE_EXPIRATION)
+    return () => clearInterval(localWeatherIntervalId)
   }, [coords])
 
   useEffect(() => {
@@ -49,8 +54,10 @@ function Weather(): JSX.Element {
 
     refreshCitiesData()
 
-    const intervalId: NodeJS.Timeout = setInterval(refreshCitiesData, REFRESH_TIME_IN_MS)
-    return () => clearInterval(intervalId)
+    clearInterval(localWeatherIntervalId)
+
+    remotWeatherIntervalId = setInterval(refreshCitiesData, CACHE_EXPIRATION)
+    return () => clearInterval(remotWeatherIntervalId)
   }, [cities])
 
   return cardsData[cardIndex] ? <WeatherCard {...cardsData[cardIndex]} /> : <Loader />

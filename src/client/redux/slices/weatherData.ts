@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { requestWeatherData } from '../../requests/sendWeatherDataRequest'
+import cache from '../../classes/cache'
 
 interface Store {
   data: [WeatherData?]
@@ -9,9 +10,27 @@ interface Store {
 
 const initialState = { loading: true, data: [], error: null } as Store
 
+const getCachedWeatherData: (params: WeatherDataParams) => WeatherData | null = (params) =>
+  params.latitude ? cache.getData('local') : cache.getData(params.city)
+
+const storeWeatherData = ({ params, data }: { params: WeatherDataParams; data: WeatherData }) => {
+  params.latitude
+    ? cache.storeData({ key: 'local', weatherData: data })
+    : cache.storeData({ key: params.city, weatherData: data })
+}
+
 export const fetchWeather = createAsyncThunk('fetchWeather', async (params: WeatherDataParams) => {
-  const response = await requestWeatherData(params)
-  return response.data as WeatherData
+  const cachedData = getCachedWeatherData(params)
+
+  if (cachedData) {
+    console.log('cached')
+    return cachedData
+  } else {
+    console.log('not cached')
+    const { data } = await requestWeatherData(params)
+    storeWeatherData({ params, data })
+    return data
+  }
 })
 
 const weatherSlice = createSlice({
@@ -37,5 +56,4 @@ const weatherSlice = createSlice({
 })
 
 export const { clearData } = weatherSlice.actions
-
 export default weatherSlice.reducer
