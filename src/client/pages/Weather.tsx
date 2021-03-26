@@ -42,7 +42,6 @@ function Weather(): JSX.Element {
 
   useEffect(() => {
     const refreshCitiesData = () => {
-      console.log(cities)
       if (cities.length > 0) {
         dispatch(clearData())
         setCardIndex(0)
