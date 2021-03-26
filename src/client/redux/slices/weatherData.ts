@@ -10,26 +10,11 @@ interface Store {
 
 const initialState = { loading: true, data: [], error: null } as Store
 
-const getCachedWeatherData: (params: WeatherDataParams) => WeatherData | null = (params) =>
-  params.latitude ? cache.getData('local') : cache.getData(params.city)
-
-const storeWeatherData = ({ params, data }: { params: WeatherDataParams; data: WeatherData }) => {
+export const fetchWeather = createAsyncThunk('fetchWeather', async (params: WeatherDataParams) =>
   params.latitude
-    ? cache.storeData({ key: 'local', weatherData: data })
-    : cache.storeData({ key: params.city, weatherData: data })
-}
-
-export const fetchWeather = createAsyncThunk('fetchWeather', async (params: WeatherDataParams) => {
-  const cachedData = getCachedWeatherData(params)
-
-  if (cachedData) {
-    return cachedData
-  } else {
-    const { data } = await requestWeatherData(params)
-    storeWeatherData({ params, data })
-    return data
-  }
-})
+    ? cache.fetch({ key: 'local', callback: async () => requestWeatherData(params) })
+    : cache.fetch({ key: params.city || 'Tokyo', callback: async () => requestWeatherData(params) })
+)
 
 const weatherSlice = createSlice({
   name: 'weather',

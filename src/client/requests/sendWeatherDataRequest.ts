@@ -1,11 +1,11 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { getUrlPort } from '../utils/getUrlPort'
 
 export const requestWeatherData = async ({
   latitude,
   longitude,
   city
-}: WeatherDataParams): Promise<{ data: WeatherData }> => {
+}: WeatherDataParams): Promise<AxiosResponse> => {
   const PORT = getUrlPort()
   const BASE_URL = `${window.location.protocol}//${window.location.hostname}${PORT}/weather`
 
