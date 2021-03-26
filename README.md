@@ -6,18 +6,6 @@ https://weather-app-sickdyd.vercel.app/
 
 https://weather-app-sickdyd.vercel.app/?city=Milan,Paris,Helsinki,Vancouver
 
-## Lighthouse
-
-Due to how geolocation is expected to be handled, lighthouse will fail unless you use a query string (https://web.dev/geolocation-on-start/)
-
-> Lighthouse checks all JavaScript executed on page load. If the code calls geolocation.getCurrentPosition() or geolocation.watchPosition(), and geolocation permission has not already been granted, the audit fails.
-
-To test the score, use an address with a query string such as:
-
-```
-https://weather-app-sickdyd.vercel.app/?city=Milan
-```
-
 ## Usage
 
 Start the server:
