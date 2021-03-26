@@ -6,6 +6,10 @@ const Wrapper = styled.main`
   align-items: center;
 
   height: 100vh;
+
+  @media (max-width: 400px) {
+    height: 50vh;
+  }
 `
 
 export default Wrapper

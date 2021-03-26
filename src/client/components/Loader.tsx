@@ -24,10 +24,10 @@ const StyledLoader = styled.div`
   }
 
   animation-name: loading;
-  animation-duration: 3s;
-  animation-direction: forwards;
+  animation-duration: 2s;
+  animation-direction: alternate-reverse;
   animation-iteration-count: infinite;
-  animation-timing-function: linear;
+  animation-timing-function: ease-in-out;
 `
 
 export const Loader = (): JSX.Element => <StyledLoader />
