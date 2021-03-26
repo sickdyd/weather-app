@@ -54,5 +54,5 @@ const weatherSlice = createSlice({
 })
 
 export const { clearData } = weatherSlice.actions
-export const selectData: (state: Store) => any = (state) => state.data
+export const selectData: (state: Store) => [WeatherData?] = (state) => state.data
 export default weatherSlice.reducer
