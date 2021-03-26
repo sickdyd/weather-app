@@ -2,9 +2,9 @@
 
 ## Live version
 
-https://weather-app.vercel.app/
+https://weather-app-sickdyd.vercel.app/
 
-https://weather-app.vercel.app/?city=Milan,Paris,Helsinki,Vancouver
+https://weather-app-sickdyd.vercel.app/?city=Milan,Paris,Helsinki,Vancouver
 
 ## Lighthouse
 
@@ -15,7 +15,7 @@ Due to how geolocation is expected to be handled, lighthouse will fail unless yo
 To test the score, use an address with a query string such as:
 
 ```
-https://weather-app.vercel.app/?city=Milan
+https://weather-app-sickdyd.vercel.app/?city=Milan
 ```
 
 ## Usage
