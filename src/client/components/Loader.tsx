@@ -30,4 +30,28 @@ const StyledLoader = styled.div`
   animation-timing-function: ease-in-out;
 `
 
-export const Loader = (): JSX.Element => <StyledLoader />
+const SunIcon = styled.i`
+  color: #1398b2;
+  font-size: 3rem;
+
+  @keyframes sunLoading {
+    from {
+      transform: scale(1, 1);
+    }
+    to {
+      transform: scale(2, 2);
+    }
+  }
+
+  animation-name: sunLoading;
+  animation-duration: 2s;
+  animation-direction: alternate-reverse;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+`
+
+export const Loader = (): JSX.Element => (
+  <StyledLoader>
+    <SunIcon className="wi wi-day-sunny" />
+  </StyledLoader>
+)
