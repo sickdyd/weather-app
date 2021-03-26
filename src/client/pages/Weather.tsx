@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useStore } from 'react-redux'
-import { fetchWeather, clearData } from '../redux/slices/weatherData'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchWeather, selectData, clearData } from '../redux/slices/weatherData'
 import useGeolocation from '../hooks/useGeolocation'
 import useCityQueryString from '../hooks/useCityQueryString'
 import useInterval from '../hooks/useInterval'
@@ -11,7 +11,6 @@ import { CACHE_EXPIRATION } from '../classes/cache'
 const ROTATE_TIME_IN_MS = 5000
 
 function Weather(): JSX.Element {
-  const [cardsData, setCardsData] = useState([])
   const [cardIndex, setCardIndex] = useState(0)
 
   useInterval({
@@ -23,10 +22,8 @@ function Weather(): JSX.Element {
   const { cities = [] } = useCityQueryString()
   const { coords } = useGeolocation()
 
-  const store = useStore()
+  const cardsData = useSelector(selectData)
   const dispatch = useDispatch()
-
-  store.subscribe(() => setCardsData(store.getState().data))
 
   let localWeatherIntervalId: NodeJS.Timeout = null
   let remotWeatherIntervalId: NodeJS.Timeout = null

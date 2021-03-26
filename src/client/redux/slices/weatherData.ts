@@ -23,10 +23,8 @@ export const fetchWeather = createAsyncThunk('fetchWeather', async (params: Weat
   const cachedData = getCachedWeatherData(params)
 
   if (cachedData) {
-    console.log('cached')
     return cachedData
   } else {
-    console.log('not cached')
     const { data } = await requestWeatherData(params)
     storeWeatherData({ params, data })
     return data
@@ -56,4 +54,5 @@ const weatherSlice = createSlice({
 })
 
 export const { clearData } = weatherSlice.actions
+export const selectData: (state: Store) => any = (state) => state.data
 export default weatherSlice.reducer
