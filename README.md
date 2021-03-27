@@ -14,7 +14,7 @@ Start the server:
 yarn start
 ```
 
-Run tests (press `a` to run all tests)
+Run tests
 
 ```
 yarn test

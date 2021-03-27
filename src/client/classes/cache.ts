@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 
-export const CACHE_EXPIRATION = 1 * 60 * 1000
+export const CACHE_EXPIRATION = 5 * 60 * 1000
 
 class Cache {
   getData(key: string) {
