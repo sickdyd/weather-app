@@ -8,7 +8,7 @@ const Wrapper = styled.main`
   height: 100vh;
 
   @media (max-width: 400px) {
-    height: 50vh;
+    height: auto;
   }
 `
 
