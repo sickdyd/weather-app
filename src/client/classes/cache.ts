@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios'
 
-export const CACHE_EXPIRATION = 5 * 60 * 1000
+export const CACHE_EXPIRATION = 1 * 60 * 1000
 
 class Cache {
   getData(key: string) {
-    const data = JSON.parse(sessionStorage.getItem(key))
+    const data = JSON.parse(sessionStorage.getItem(key.toUpperCase()))
     return this.isExpired(data?.expiresAt) ? null : data
   }
 
@@ -33,7 +33,7 @@ class Cache {
       const { data } = await callback()
       const expiresAt = expiresInSeconds ? expiresInSeconds * 1000 : this.defaultExpiration()
 
-      sessionStorage.setItem(key, JSON.stringify({ ...data, expiresAt }))
+      sessionStorage.setItem(key.toUpperCase(), JSON.stringify({ ...data, expiresAt }))
 
       return data
     }

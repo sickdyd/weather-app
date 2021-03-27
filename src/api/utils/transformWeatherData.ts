@@ -6,7 +6,8 @@ const transformWeatherData = (data: OWResponse): WeatherData => ({
   wind: {
     speed: Math.round(data.wind.speed),
     deg: data.wind.deg
-  }
+  },
+  coords: data.coord
 })
 
 export default transformWeatherData

@@ -7,15 +7,17 @@ import App from './App'
 
 describe('razzle-weather-app', () => {
   beforeAll(() => {
-    const coords = {
-      latitude: 139.7193014,
-      longitude: 35.5565353
+    const geolocationCoords = {
+      latitude: 139.72,
+      longitude: 35.56
     }
 
     const mockGeolocation = {
       getCurrentPosition: jest
         .fn()
-        .mockImplementationOnce((success) => Promise.resolve(success({ coords })))
+        .mockImplementationOnce((success) =>
+          Promise.resolve(success({ coords: geolocationCoords }))
+        )
     }
 
     Object.defineProperty(global.navigator, 'geolocation', { value: mockGeolocation })

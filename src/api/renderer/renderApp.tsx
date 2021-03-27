@@ -32,7 +32,7 @@ export const renderApp = (req: express.Request): ServerResponse => {
           <head>
               <meta http-equiv="X-UA-Compatible" content="IE=edge" />
               <meta charSet='utf-8' />
-              <title>Razzle Weather App</title>
+              <title>Weather App</title>
               <meta name="viewport" content="width=device-width, initial-scale=1">
               ${cssLinksFromAssets(assets, 'client')}
           </head>

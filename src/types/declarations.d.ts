@@ -18,15 +18,16 @@ interface WeatherData {
   wind: WindData
   local?: boolean
   expiresAt?: number
+  coords: Coordinates
 }
 
 interface Coordinates {
-  latitude: string
-  longitude: string
+  lat: number
+  lon: number
 }
 
 interface WeatherDataParams {
-  latitude?: number
-  longitude?: number
+  lat?: number
+  lon?: number
   city?: string
 }
