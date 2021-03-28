@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { requestWeatherData } from '../../requests/sendWeatherDataRequest'
 import cache from '../../classes/cache'
 
@@ -18,7 +18,7 @@ const initialState = {
   error: null
 } as Store
 
-const handleRequest = async (params: WeatherDataParams) =>
+const handleRequest = async (params: WeatherDataParams): Promise<WeatherData> =>
   params.lat && params.lon
     ? cache.fetch({ key: 'local', callback: async () => requestWeatherData(params) })
     : cache.fetch({ key: params.city, callback: async () => requestWeatherData(params) })
@@ -26,6 +26,19 @@ const handleRequest = async (params: WeatherDataParams) =>
 export const fetchWeather = createAsyncThunk('fetchWeather', async (params: WeatherDataParams) => {
   return handleRequest(params)
 })
+
+export const refreshData = createAsyncThunk(
+  'refreshData',
+  async (_, { getState }): Promise<WeatherData[]> => {
+    const { data } = getState() as Store
+
+    return await Promise.all(
+      data.map((data: WeatherData) =>
+        handleRequest({ city: data.cityName, lat: data.coords?.lat, lon: data.coords?.lon })
+      )
+    )
+  }
+)
 
 const weatherSlice = createSlice({
   name: 'weather',
@@ -44,12 +57,7 @@ const weatherSlice = createSlice({
         state.data[state.currentDataIndex] &&
           (state.currentData = state.data[state.currentDataIndex])
       }
-    },
-    // TODO: fix anti pattern: create a new async thunk function to handle the requests
-    refreshData: (state) =>
-      current(state).data.forEach((data) => {
-        handleRequest({ city: data.cityName, lat: data.coords?.lat, lon: data.coords?.lon })
-      })
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchWeather.pending, (state) => {
@@ -62,10 +70,21 @@ const weatherSlice = createSlice({
     builder.addCase(fetchWeather.rejected, (state) => {
       state.loading = false
     })
+    builder.addCase(refreshData.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(refreshData.fulfilled, (state, action) => {
+      state.loading = false
+      state.data = []
+      action.payload.forEach((data) => state.data.push(data))
+    })
+    builder.addCase(refreshData.rejected, (state) => {
+      state.loading = false
+    })
   }
 })
 
-export const { clearData, rotateData, refreshData } = weatherSlice.actions
+export const { clearData, rotateData } = weatherSlice.actions
 export const selectData: (state: Store) => [WeatherData?] = (state) => state.data
 export const selectIndex: (state: Store) => number = (state) => state.currentDataIndex
 export default weatherSlice.reducer
