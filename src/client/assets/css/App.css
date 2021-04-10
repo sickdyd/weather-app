@@ -2,6 +2,11 @@
 @import 'weather-icons.min.css';
 @import 'weather-icons-wind.min.css';
 
+:root {
+  --blue: #304697;
+  --yellow: #fad53c;
+}
+
 body {
   margin: 0;
   padding: 0;

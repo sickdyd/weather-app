@@ -14,7 +14,7 @@ const Main = styled.div<{ temperature: number }>`
   width: calc(100% - 4rem);
   max-width: 500px;
 
-  background-color: ${({ temperature }) => (temperature > 20 ? '#fad53c' : '#304697')};
+  background-color: ${({ temperature }) => (temperature > 20 ? 'var(--yellow)' : 'var(--blue)')};
 
   border-radius: 10px;
 
