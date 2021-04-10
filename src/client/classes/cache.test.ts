@@ -6,42 +6,12 @@ describe('cache', () => {
   const data = { item: 'storedData' }
   const callback = jest.fn(async () => (({ data } as unknown) as AxiosResponse))
 
-  describe('getData', () => {
-    it('returns data if data has not expired', () => {
-      const dataObject = { ...data, expiresAt: new Date().getTime() + CACHE_EXPIRATION }
-      sessionStorage.setItem(DATA_KEY, JSON.stringify(dataObject))
+  const mockDate = (new Date(0) as unknown) as string
+  jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
 
-      const result = cache.getData(DATA_KEY)
-      expect(result).toMatchObject(dataObject)
-    })
-
-    it('returns null if data has expired', () => {
-      const dataObject = { ...data, expiresAt: 0 }
-      sessionStorage.setItem(DATA_KEY, JSON.stringify(dataObject))
-
-      const result = cache.getData(DATA_KEY)
-      expect(result).toBe(null)
-    })
-  })
-
-  describe('defaultExpiration', () => {
-    it('returns the default expiration time in ms', () => {
-      const expiration = cache.defaultExpiration()
-
-      // Leave some margin to avoid failing spec due to 1ms diff
-      expect(expiration).toBeGreaterThanOrEqual(new Date().getTime() + CACHE_EXPIRATION - 1005)
-      expect(expiration).toBeLessThan(new Date().getTime() + CACHE_EXPIRATION - 995)
-    })
-  })
-
-  describe('isExpired', () => {
-    it('returns true if date has expired', () => {
-      expect(cache.isExpired(new Date().getTime() - 1000)).toBe(true)
-    })
-
-    it('returns false if date has not expired', () => {
-      expect(cache.isExpired(new Date().getTime() + 10 * 1000)).toBe(false)
-    })
+  afterEach(() => {
+    sessionStorage.clear()
+    callback.mockClear()
   })
 
   describe('fetch', () => {
@@ -52,11 +22,40 @@ describe('cache', () => {
       expect(callback).toHaveBeenCalledTimes(1)
     })
 
-    it('does not call callback if cached data is available', () => {
-      cache.fetch({ key: DATA_KEY, callback })
-      cache.fetch({ key: DATA_KEY, callback })
+    it('does not call callback if cached data is available', async () => {
+      await cache.fetch({ key: DATA_KEY, callback })
+      await cache.fetch({ key: DATA_KEY, callback })
 
       expect(callback).toHaveBeenCalledTimes(1)
+    })
+
+    it('stores data in sessionStorage', async () => {
+      await cache.fetch({ key: DATA_KEY, callback })
+
+      const storedData = JSON.parse(sessionStorage.getItem(DATA_KEY))
+
+      expect(storedData).toMatchObject(data)
+    })
+
+    it('sets the default expiration time', async () => {
+      await cache.fetch({ key: DATA_KEY, callback })
+      const { expiresAt } = JSON.parse(sessionStorage.getItem(DATA_KEY))
+
+      expect(expiresAt).toBe(CACHE_EXPIRATION)
+    })
+
+    it('sets an arbitrary expiration time', async () => {
+      await cache.fetch({ key: DATA_KEY, callback, expiresInSeconds: 5 })
+      const { expiresAt } = JSON.parse(sessionStorage.getItem(DATA_KEY))
+
+      expect(expiresAt).toBe(5000)
+    })
+
+    it('calls callback if data is expired', async () => {
+      await cache.fetch({ key: DATA_KEY, callback, expiresInSeconds: -1 })
+      await cache.fetch({ key: DATA_KEY, callback, expiresInSeconds: -1 })
+
+      expect(callback).toHaveBeenCalledTimes(2)
     })
   })
 })
