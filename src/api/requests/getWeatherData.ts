@@ -1,6 +1,8 @@
 import axios from 'axios'
 import transformWeatherData from '../utils/transformWeatherData'
 
+// When a request is received on the weather endpoint, it will
+// destructure the query string and get lat, lon and city
 const getWeatherData = async ({
   lat,
   lon,
@@ -11,6 +13,8 @@ const getWeatherData = async ({
 
   let requestURL = ''
 
+  // If lat and lon exist, the request is for the local weather, otherwise
+  // the query is done by city name
   lat && lon
     ? (requestURL = `${BASE_URL}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`)
     : (requestURL = `${BASE_URL}?q=${city}&appid=${apiKey}&units=metric`)

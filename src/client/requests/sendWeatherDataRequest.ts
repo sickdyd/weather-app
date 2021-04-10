@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
 import { getUrlPort } from '../utils/getUrlPort'
 
+// Requests done from the client are sent to the the `weather` endpoint of
+// the express instance to avoid exposing the api keys on the client
 export const requestWeatherData = async ({
   lat,
   lon,
