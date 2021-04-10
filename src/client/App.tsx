@@ -12,7 +12,6 @@ const App: () => JSX.Element = () => (
     <PageWrapper>
       <Switch>
         <Route exact={true} path="/" component={Weather} />
-        <Route exact={true} path="/geoWeather" component={Weather} />
       </Switch>
     </PageWrapper>
   </Provider>
