@@ -6,7 +6,7 @@
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start": "concurrently \"yarn start:tsc\" \"razzle start\"",
     "build": "tsc -b && razzle build",
-    "test": "razzle test --env=jsdom",
+    "test": "razzle test --env=jsdom --verbose",
     "start:prod": "NODE_ENV=production node build/server.js",
     "lint": "eslint . --ext .tsx --ext .ts",
     "typecheck": "tsc --noEmit",
