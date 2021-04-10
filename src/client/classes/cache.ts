@@ -13,7 +13,7 @@ class Cache {
   }
 
   private isExpired(expiresAt: number) {
-    return expiresAt > new Date().getTime() ? false : true
+    return expiresAt < new Date().getTime()
   }
 
   async fetch({
