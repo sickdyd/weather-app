@@ -17,7 +17,7 @@ import { CACHE_EXPIRATION } from '../classes/cache'
 const ROTATE_TIME_IN_MS = 5000
 
 function Weather(): JSX.Element {
-  const { cities = [] } = useCityQueryString()
+  const { cities } = useCityQueryString()
   const { coords } = useGeolocation()
 
   const cardsData = useSelector(selectData)
