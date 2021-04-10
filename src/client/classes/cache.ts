@@ -3,16 +3,16 @@ import { AxiosResponse } from 'axios'
 export const CACHE_EXPIRATION = 5 * 60 * 1000
 
 class Cache {
-  getData(key: string) {
+  private getData(key: string) {
     const data = JSON.parse(sessionStorage.getItem(key.toUpperCase()))
     return this.isExpired(data?.expiresAt) ? null : data
   }
 
-  defaultExpiration(): number {
+  private defaultExpiration(): number {
     return new Date().getTime() + CACHE_EXPIRATION - 1000
   }
 
-  isExpired(expiresAt: number) {
+  private isExpired(expiresAt: number) {
     return expiresAt > new Date().getTime() ? false : true
   }
 
