@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
-import { selectIndex } from '../redux/slices/weatherData'
-import { useSelector } from 'react-redux'
 
 const WeatherIcon = styled.i`
   font-size: 11rem;
@@ -42,14 +40,6 @@ const WeatherIcon = styled.i`
   }
 `
 
-export const WeatherImage = ({ weatherId }: { weatherId: number }): JSX.Element => {
-  const ref = React.useRef<HTMLElement>()
-  const cardIndex = useSelector(selectIndex)
-
-  useEffect(() => {
-    ref.current.style.animation = 'none'
-    requestAnimationFrame(() => requestAnimationFrame(() => (ref.current.style.animation = '')))
-  }, [cardIndex])
-
-  return <WeatherIcon ref={ref} className={`wi wi-owm-${weatherId}`} />
-}
+export const WeatherImage = ({ weatherId }: { weatherId: number }): JSX.Element => (
+  <WeatherIcon key={Math.random().toString()} className={`wi wi-owm-${weatherId}`} />
+)
