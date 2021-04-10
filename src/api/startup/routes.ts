@@ -4,5 +4,5 @@ import ssrRouter from '../routes/ssr'
 
 export default function routes(app: Express): void {
   app.use('/weather', weatherRouter)
-  app.use('/', ssrRouter)
+  app.use('/*', ssrRouter)
 }
