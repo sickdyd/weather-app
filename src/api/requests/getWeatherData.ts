@@ -17,7 +17,7 @@ const getWeatherData = async ({
   // the query is done by city name
   lat && lon
     ? (requestURL = `${BASE_URL}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`)
-    : (requestURL = `${BASE_URL}?q=${city}&appid=${apiKey}&units=metric`)
+    : (requestURL = `${BASE_URL}?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`)
 
   const weatherData = await axios
     .get(requestURL)

@@ -10,7 +10,7 @@ export const requestWeatherData = async ({
 }: WeatherDataParams): Promise<AxiosResponse> => {
   const PORT = getUrlPort()
   const BASE_URL = `${window.location.protocol}//${window.location.hostname}${PORT}/weather`
-  const queryString = lat && lon ? `?lat=${lat}&lon=${lon}` : `?city=${city}`
+  const queryString = lat && lon ? `?lat=${lat}&lon=${lon}` : `?city=${encodeURIComponent(city)}`
 
   return await axios.get(`${BASE_URL}${queryString}`)
 }
