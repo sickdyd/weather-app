@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, getByText, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
 
@@ -39,10 +39,18 @@ describe('razzle-weather-app', () => {
   })
 
   it('renders weather data', async () => {
-    render(
+    const { container } = render(
       <MemoryRouter>
         <App />
       </MemoryRouter>
+    )
+
+    fireEvent(
+      getByText(container, /Start the App/i),
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true
+      })
     )
 
     const cityName = await screen.findByText(/Milan/i)

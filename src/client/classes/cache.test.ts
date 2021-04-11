@@ -41,7 +41,7 @@ describe('cache', () => {
       await cache.fetch({ key: DATA_KEY, callback })
       const { expiresAt } = JSON.parse(sessionStorage.getItem(DATA_KEY))
 
-      expect(expiresAt).toBe(CACHE_EXPIRATION)
+      expect(expiresAt).toBe(CACHE_EXPIRATION - 1000)
     })
 
     it('sets an arbitrary expiration time', async () => {
