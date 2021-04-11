@@ -8,7 +8,6 @@ import {
   rotateData,
   refreshData
 } from '../redux/slices/weatherData'
-import useGeolocation from '../hooks/useGeolocation'
 import useCityQueryString from '../hooks/useCityQueryString'
 import { WeatherCard } from '../components/WeatherCard'
 import { Loader } from '../components/Loader'
@@ -16,9 +15,8 @@ import { CACHE_EXPIRATION } from '../classes/cache'
 
 const ROTATE_TIME_IN_MS = 5000
 
-function Weather(): JSX.Element {
+function RemoteWeather(): JSX.Element {
   const { cities } = useCityQueryString()
-  const { coords, error: geolocationError } = useGeolocation()
 
   const cardsData = useSelector(selectData)
   const cardIndex = useSelector(selectIndex)
@@ -36,24 +34,13 @@ function Weather(): JSX.Element {
   }, [])
 
   useEffect(() => {
-    if (coords && !cities) {
-      dispatch(clearData())
-      dispatch(fetchWeather(coords))
-    }
-  }, [coords])
-
-  useEffect(() => {
     if (cities?.length > 0) {
       dispatch(clearData())
       cities.forEach((city) => dispatch(fetchWeather({ city })))
     }
   }, [cities])
 
-  if (geolocationError) {
-    return <div>Please allow the app to access your current location and reload the page.</div>
-  }
-
   return cardsData[cardIndex] ? <WeatherCard {...cardsData[cardIndex]} /> : <Loader />
 }
 
-export default Weather
+export default RemoteWeather

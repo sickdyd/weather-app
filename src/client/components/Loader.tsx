@@ -11,7 +11,7 @@ const StyledLoader = styled.div`
 
   font-size: 3rem;
 
-  border: 2px dashed #1398b2;
+  border: 2px dashed #5a7eff;
   border-radius: 50%;
 
   @keyframes loading {
@@ -31,7 +31,7 @@ const StyledLoader = styled.div`
 `
 
 const SunIcon = styled.i`
-  color: #1398b2;
+  color: #5a7eff;
   font-size: 3rem;
 
   @keyframes sunLoading {
