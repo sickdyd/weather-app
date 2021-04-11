@@ -18,7 +18,7 @@ const ROTATE_TIME_IN_MS = 5000
 
 function Weather(): JSX.Element {
   const { cities } = useCityQueryString()
-  const { coords } = useGeolocation()
+  const { coords, error: geolocationError } = useGeolocation()
 
   const cardsData = useSelector(selectData)
   const cardIndex = useSelector(selectIndex)
@@ -48,6 +48,10 @@ function Weather(): JSX.Element {
       cities.forEach((city) => dispatch(fetchWeather({ city })))
     }
   }, [cities])
+
+  if (geolocationError) {
+    return <div>Please allow the app to access your current location and reload the page.</div>
+  }
 
   return cardsData[cardIndex] ? <WeatherCard {...cardsData[cardIndex]} /> : <Loader />
 }

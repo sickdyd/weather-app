@@ -8,6 +8,7 @@ interface Store {
   currentDataIndex: number
   loading: boolean
   error: Error
+  displayWeather: boolean
 }
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   data: [],
   currentData: null,
   currentDataIndex: 0,
-  error: null
+  error: null,
+  displayWeather: false
 } as Store
 
 const handleRequest = async (params: WeatherDataParams): Promise<WeatherData> =>
@@ -44,6 +46,9 @@ const weatherSlice = createSlice({
   name: 'weather',
   initialState,
   reducers: {
+    setDisplayWeather: (state, action) => {
+      state.displayWeather = action.payload
+    },
     clearData: (state) => {
       state.data = []
       state.currentDataIndex = 0
@@ -84,7 +89,8 @@ const weatherSlice = createSlice({
   }
 })
 
-export const { clearData, rotateData } = weatherSlice.actions
+export const { setDisplayWeather, clearData, rotateData } = weatherSlice.actions
 export const selectData: (state: Store) => [WeatherData?] = (state) => state.data
 export const selectIndex: (state: Store) => number = (state) => state.currentDataIndex
+export const selectDisplayWeather: (state: Store) => boolean = (state) => state.displayWeather
 export default weatherSlice.reducer
