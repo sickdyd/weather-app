@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDisplayWeather, selectDisplayWeather } from '../redux/slices/weatherData'
 import RemoteWeather from '../pages/RemoteWeather'
@@ -16,7 +15,9 @@ function Home(): JSX.Element {
   const dispatch = useDispatch()
   const displayWeather = useSelector(selectDisplayWeather)
 
-  // For best practices ask the user first for permission to access the geolocation
+  // For best practices instead of accessing the geolocation on page load
+  // display a button that has to be clicked to start the app informing
+  // the user that it will require access to the geolocation
   if (!displayWeather && !cities) {
     return (
       <Wrapper>
@@ -34,8 +35,9 @@ function Home(): JSX.Element {
     return <RemoteWeather />
   }
 
-  // If the user clicked the button try to access the geolocation API and
-  // display the local weather
+  // If the user clicked the button (above on line 25) and there is no
+  // city query string param try to access the geolocation API and display
+  // the local weather
   return <LocalWeather />
 }
 

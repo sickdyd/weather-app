@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchWeather,
@@ -24,6 +24,9 @@ function RemoteWeather(): JSX.Element {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // refreshData will reftech weather information for every city displayed
+    // If multiple cities are present in the querystring, rotateData will
+    // rotate them displaying only one city at a time
     const refreshIntervalId = setInterval(() => dispatch(refreshData()), CACHE_EXPIRATION)
     const rotateIntervalid = setInterval(() => dispatch(rotateData()), ROTATE_TIME_IN_MS)
 

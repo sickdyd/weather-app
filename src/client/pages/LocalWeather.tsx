@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchWeather, selectData, clearData, refreshData } from '../redux/slices/weatherData'
 import useGeolocation from '../hooks/useGeolocation'
