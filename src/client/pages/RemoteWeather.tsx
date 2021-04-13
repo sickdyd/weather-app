@@ -6,7 +6,8 @@ import {
   selectIndex,
   clearData,
   rotateData,
-  refreshData
+  refreshData,
+  selectLoading
 } from '../redux/slices/weatherData'
 import useCityQueryString from '../hooks/useCityQueryString'
 import { WeatherCard } from '../components/WeatherCard'
@@ -20,13 +21,14 @@ function RemoteWeather(): JSX.Element {
 
   const cardsData = useSelector(selectData)
   const cardIndex = useSelector(selectIndex)
+  const loading = useSelector(selectLoading)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     // refreshData will reftech weather information for every city displayed
     // If multiple cities are present in the querystring, rotateData will
-    // rotate them displaying only one city at a time
+    // rotate them displaying only one city at a time for ROTATE_TIME_IN_MS
     const refreshIntervalId = setInterval(() => dispatch(refreshData()), CACHE_EXPIRATION)
     const rotateIntervalid = setInterval(() => dispatch(rotateData()), ROTATE_TIME_IN_MS)
 
@@ -43,7 +45,7 @@ function RemoteWeather(): JSX.Element {
     }
   }, [cities])
 
-  return cardsData[cardIndex] ? <WeatherCard {...cardsData[cardIndex]} /> : <Loader />
+  return loading ? <Loader /> : <WeatherCard {...cardsData[cardIndex]} />
 }
 
 export default RemoteWeather

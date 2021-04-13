@@ -92,5 +92,6 @@ const weatherSlice = createSlice({
 export const { setDisplayWeather, clearData, rotateData } = weatherSlice.actions
 export const selectData: (state: Store) => [WeatherData?] = (state) => state.data
 export const selectIndex: (state: Store) => number = (state) => state.currentDataIndex
+export const selectLoading: (state: Store) => boolean = (state) => state.loading
 export const selectDisplayWeather: (state: Store) => boolean = (state) => state.displayWeather
 export default weatherSlice.reducer
