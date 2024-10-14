@@ -10,12 +10,6 @@ The application was built to showcase the knowledge of JavaScript/TypeScript, Ra
 
 [![Screen-Shot-2021-04-10-at-10-57-03.png](https://i.postimg.cc/CKynH5Jr/Screen-Shot-2021-04-10-at-10-57-03.png)](https://postimg.cc/18Hzy9kD)
 
-## Live version
-
-https://weather-app-sickdyd.vercel.app/
-
-https://weather-app-sickdyd.vercel.app/?city=Milan,Paris,Helsinki,Vancouver
-
 ## Tech
 
 - Razzle
